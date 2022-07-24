@@ -63,7 +63,7 @@ const CaloriesForm = () => {
   }
 
   const CalculateRER = () => {
-    let rer = 70 * (Weight)^0.75;
+    let rer = 70 * Math.pow(Weight, 0.75);
     return rer;
   }
 
