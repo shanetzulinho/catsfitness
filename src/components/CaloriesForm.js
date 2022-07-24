@@ -11,39 +11,39 @@ import Stack from '@mui/material/Stack';
 const DREFactors = [
     {
       value: 'kitten-intact',
-      label: '幼貓(未滿10歲)-未結紮',
+      label: 'Kitten less than 10 months - Intact (幼貓[未滿10個月]-未結紮)',
     },
     {
       value: 'intact',
-      label: '成貓-未結紮',
+      label: 'Intact (成貓-未結紮)',
     },
     {
       value: 'spayed/Neutered',
-      label: '成貓-已結紮',
+      label: 'Spayed/Neutered (成貓-已結紮)',
     },
     {
       value: 'overweight',
-      label: '成貓-肥胖或不愛動',
+      label: 'Overweight/Sedentary (成貓-肥胖或不愛動)',
     },
     {
         value: 'underweight',
-        label: '成貓-過瘦',
+        label: 'Underweight (成貓-過瘦)',
     },
     {
       value: '7-11yrs',
-      label: '中年成貓',
+      label: '7 to 11 years old (中年成貓)',
     },
     {
       value: 'over11yrs',
-      label: '老貓',
+      label: 'Over 11 years old (老貓)',
     },
     {
       value: 'pregnant',
-      label: '母貓-懷孕中',
+      label: 'Pregnant (母貓-懷孕中)',
     },
     {
       value: 'nursing',
-      label: '母貓-哺乳中',
+      label: 'Nursing (母貓-哺乳中)',
     }
 ];
 
