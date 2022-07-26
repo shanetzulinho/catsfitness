@@ -2,122 +2,79 @@ import React, { useState } from 'react'
 
 import InputField from '../components/InputField'
 import SelectField from '../components/SelectField'
+import { FACTORS, DRE_OBJECT } from '../components/caloriesForm.consts'
+import { calculateRER, showMessage } from '../components/caloriesForm.helpers'
 
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 
-const DREFactors = [
+// options for activity_level SelectField
+const DRE_FACTORS_OPTIONS = [
   {
-    value: 'kitten-intact',
-    label: 'Kitten less than 10 months - Intact (幼貓[未滿10個月]-未結紮)',
+    value: FACTORS.KITTEN_INTACT,
+    label: DRE_OBJECT[FACTORS.KITTEN_INTACT].label,
   },
   {
-    value: 'intact',
-    label: 'Intact (成貓-未結紮)',
+    value: FACTORS.INTACT,
+    label: DRE_OBJECT[FACTORS.INTACT].label,
   },
   {
-    value: 'spayed/Neutered',
-    label: 'Spayed/Neutered (成貓-已結紮)',
+    value: FACTORS.SPAYED_NEUTERED,
+    label: DRE_OBJECT[FACTORS.SPAYED_NEUTERED].label,
   },
   {
-    value: 'overweight',
-    label: 'Overweight/Sedentary (成貓-肥胖或不愛動)',
+    value: FACTORS.OVERWEIGHT,
+    label: DRE_OBJECT[FACTORS.OVERWEIGHT].label,
   },
   {
-    value: 'underweight',
-    label: 'Underweight (成貓-過瘦)',
+    value: FACTORS.UNDERWEIGHT,
+    label: DRE_OBJECT[FACTORS.UNDERWEIGHT].label,
   },
   {
-    value: '7-11yrs',
-    label: '7 to 11 years old (中年成貓)',
+    value: FACTORS.MIDDLE_AGE,
+    label: DRE_OBJECT[FACTORS.MIDDLE_AGE].label,
   },
   {
-    value: 'over11yrs',
-    label: 'Over 11 years old (老貓)',
+    value: FACTORS.ELDERLY_AGE,
+    label: DRE_OBJECT[FACTORS.ELDERLY_AGE].label,
   },
   {
-    value: 'pregnant',
-    label: 'Pregnant (母貓-懷孕中)',
+    value: FACTORS.PREGNANT,
+    label: DRE_OBJECT[FACTORS.PREGNANT].label,
   },
   {
-    value: 'nursing',
-    label: 'Nursing (母貓-哺乳中)',
+    value: FACTORS.NURSING,
+    label: DRE_OBJECT[FACTORS.NURSING].label,
   },
 ]
 
 const CaloriesForm = () => {
-  const [Weight, setWeight] = useState(0)
+  const [weight, setWeight] = useState(0)
   const [DREFactor, setDREFactor] = useState('')
-  const [CalLower, setCalLower] = useState(0)
-  const [CalUpper, setCalUpper] = useState(0)
+  const [calLower, setCalLower] = useState(0)
+  const [calUpper, setCalUpper] = useState(0)
 
   const handleInputChange = (event) => {
     setWeight(event.target.value)
   }
 
-  const handleSelectChange = (event) => {
-    setDREFactor(event.target.value)
-    CalculateCalories(event.target.value)
+  const handleSelectChange = (event, weight) => {
+    const value = event.target.value
+    setDREFactor(value)
+    calculateCalories(value, weight)
   }
 
-  const CalculateRER = () => {
-    let rer = 70 * Math.pow(Weight, 0.75)
-    return rer
+  const calculateCalories = (factors, weight) => {
+    const rer = calculateRER(weight)
+
+    const lowerBound = DRE_OBJECT[factors].lowerBound * rer
+    const upperBound = DRE_OBJECT[factors].upperBound * rer
+
+    setCalLower(Math.round(lowerBound))
+    setCalUpper(Math.round(upperBound))
   }
-
-  const CalculateCalories = (factors) => {
-    const rer = CalculateRER()
-
-    let lower_bound = 0
-    let upper_bound = 0
-    switch (factors) {
-      case 'kitten-intact':
-        lower_bound = rer * 2.5
-        upper_bound = rer * 2.5
-        break
-      case 'intact':
-        lower_bound = rer * 1.2
-        upper_bound = rer * 1.4
-        break
-      case 'spayed/Neutered':
-        lower_bound = rer * 1.4
-        upper_bound = rer * 1.6
-        break
-      case 'overweight':
-        lower_bound = rer * 0.8
-        upper_bound = rer * 1.0
-        break
-      case 'underweight':
-        lower_bound = rer * 1.2
-        upper_bound = rer * 1.8
-        break
-      case '7-11yrs':
-        lower_bound = rer * 1.1
-        upper_bound = rer * 1.4
-        break
-      case 'over11yrs':
-        lower_bound = rer * 1.1
-        upper_bound = rer * 1.6
-        break
-      case 'pregnant':
-        lower_bound = rer * 1.6
-        upper_bound = rer * 2.0
-        break
-      case 'nursing':
-        lower_bound = rer * 2.0
-        upper_bound = rer * 2.0
-        break
-      default:
-        alert(`Your selected: ${DREFactor}`)
-    }
-    setCalLower(Math.round(lower_bound))
-    setCalUpper(Math.round(upper_bound))
-  }
-
-  const lower = CalLower
-  const upper = CalUpper
 
   return (
     <Box
@@ -133,22 +90,20 @@ const CaloriesForm = () => {
           label="Weight (kg)"
           type="Number"
           name="weight"
-          value={Weight}
+          value={weight}
           onChange={handleInputChange}
         />
         <SelectField
           label="Activity Level"
           name="activity_level"
-          defaultValue="kitten-intact"
-          items={DREFactors}
-          onChange={handleSelectChange}
+          defaultValue={DREFactor}
+          items={DRE_FACTORS_OPTIONS}
+          onChange={(e) => handleSelectChange(e, weight)}
         />
       </FormControl>
       <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="info">
-          Estimated daily calories
-          <br />
-          {lower === upper ? `${lower} ~ more` : `${lower} ~ ${upper}`}
+          Estimated daily calories: {showMessage(calLower, calUpper)}
         </Alert>
       </Stack>
     </Box>
