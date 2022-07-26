@@ -1,130 +1,129 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import InputField from '../components/InputField';
-import SelectField from '../components/SelectField';
+import InputField from '../components/InputField'
+import SelectField from '../components/SelectField'
 
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import Alert from '@mui/material/Alert'
+import Stack from '@mui/material/Stack'
 
 const DREFactors = [
-    {
-      value: 'kitten-intact',
-      label: 'Kitten less than 10 months - Intact (幼貓[未滿10個月]-未結紮)',
-    },
-    {
-      value: 'intact',
-      label: 'Intact (成貓-未結紮)',
-    },
-    {
-      value: 'spayed/Neutered',
-      label: 'Spayed/Neutered (成貓-已結紮)',
-    },
-    {
-      value: 'overweight',
-      label: 'Overweight/Sedentary (成貓-肥胖或不愛動)',
-    },
-    {
-        value: 'underweight',
-        label: 'Underweight (成貓-過瘦)',
-    },
-    {
-      value: '7-11yrs',
-      label: '7 to 11 years old (中年成貓)',
-    },
-    {
-      value: 'over11yrs',
-      label: 'Over 11 years old (老貓)',
-    },
-    {
-      value: 'pregnant',
-      label: 'Pregnant (母貓-懷孕中)',
-    },
-    {
-      value: 'nursing',
-      label: 'Nursing (母貓-哺乳中)',
-    }
-];
+  {
+    value: 'kitten-intact',
+    label: 'Kitten less than 10 months - Intact (幼貓[未滿10個月]-未結紮)',
+  },
+  {
+    value: 'intact',
+    label: 'Intact (成貓-未結紮)',
+  },
+  {
+    value: 'spayed/Neutered',
+    label: 'Spayed/Neutered (成貓-已結紮)',
+  },
+  {
+    value: 'overweight',
+    label: 'Overweight/Sedentary (成貓-肥胖或不愛動)',
+  },
+  {
+    value: 'underweight',
+    label: 'Underweight (成貓-過瘦)',
+  },
+  {
+    value: '7-11yrs',
+    label: '7 to 11 years old (中年成貓)',
+  },
+  {
+    value: 'over11yrs',
+    label: 'Over 11 years old (老貓)',
+  },
+  {
+    value: 'pregnant',
+    label: 'Pregnant (母貓-懷孕中)',
+  },
+  {
+    value: 'nursing',
+    label: 'Nursing (母貓-哺乳中)',
+  },
+]
 
 const CaloriesForm = () => {
-  const [Weight, setWeight] = useState(0);
-  const [DREFactor, setDREFactor] = useState('');
-  const [CalLower, setCalLower] = useState(0);
-  const [CalUpper, setCalUpper] = useState(0);
+  const [Weight, setWeight] = useState(0)
+  const [DREFactor, setDREFactor] = useState('')
+  const [CalLower, setCalLower] = useState(0)
+  const [CalUpper, setCalUpper] = useState(0)
 
   const handleInputChange = (event) => {
-    setWeight(event.target.value);
+    setWeight(event.target.value)
   }
 
   const handleSelectChange = (event) => {
-    setDREFactor(event.target.value);
-    CalculateCalories(event.target.value);
+    setDREFactor(event.target.value)
+    CalculateCalories(event.target.value)
   }
 
   const CalculateRER = () => {
-    let rer = 70 * Math.pow(Weight, 0.75);
-    return rer;
+    let rer = 70 * Math.pow(Weight, 0.75)
+    return rer
   }
 
   const CalculateCalories = (factors) => {
-    const rer = CalculateRER();
+    const rer = CalculateRER()
 
-    let lower_bound = 0;
-    let upper_bound = 0;
+    let lower_bound = 0
+    let upper_bound = 0
     switch (factors) {
       case 'kitten-intact':
-        lower_bound = rer * 2.5;
-        upper_bound = rer * 2.5;
-        break;
+        lower_bound = rer * 2.5
+        upper_bound = rer * 2.5
+        break
       case 'intact':
-        lower_bound = rer * 1.2;
-        upper_bound = rer * 1.4;
-        break;
+        lower_bound = rer * 1.2
+        upper_bound = rer * 1.4
+        break
       case 'spayed/Neutered':
-        lower_bound = rer * 1.4;
-        upper_bound = rer * 1.6;
-        break;
+        lower_bound = rer * 1.4
+        upper_bound = rer * 1.6
+        break
       case 'overweight':
-        lower_bound = rer * 0.8;
-        upper_bound = rer * 1.0;
-        break;
+        lower_bound = rer * 0.8
+        upper_bound = rer * 1.0
+        break
       case 'underweight':
-        lower_bound = rer * 1.2;
-        upper_bound = rer * 1.8;
-        break;
+        lower_bound = rer * 1.2
+        upper_bound = rer * 1.8
+        break
       case '7-11yrs':
-        lower_bound = rer * 1.1;
-        upper_bound = rer * 1.4;
-        break;
+        lower_bound = rer * 1.1
+        upper_bound = rer * 1.4
+        break
       case 'over11yrs':
-        lower_bound = rer * 1.1;
-        upper_bound = rer * 1.6;
-        break;
+        lower_bound = rer * 1.1
+        upper_bound = rer * 1.6
+        break
       case 'pregnant':
-        lower_bound = rer * 1.6;
-        upper_bound = rer * 2.0;
-        break;
+        lower_bound = rer * 1.6
+        upper_bound = rer * 2.0
+        break
       case 'nursing':
-        lower_bound = rer * 2.0;
-        upper_bound = rer * 2.0;
-        break;
+        lower_bound = rer * 2.0
+        upper_bound = rer * 2.0
+        break
       default:
-        alert(`Your selected: ${DREFactor}`);
+        alert(`Your selected: ${DREFactor}`)
     }
-    setCalLower(Math.round(lower_bound));
-    setCalUpper(Math.round(upper_bound));
+    setCalLower(Math.round(lower_bound))
+    setCalUpper(Math.round(upper_bound))
   }
 
-  const lower = CalLower;
-  const upper = CalUpper;
+  const lower = CalLower
+  const upper = CalUpper
 
   return (
-    
     <Box
       component="form"
       sx={{
-          '& .MuiTextField-root': { m: 1, width: 200 },
+        '& .MuiTextField-root': { m: 1, width: 200 },
       }}
       noValidate
       autoComplete="off"
@@ -143,20 +142,17 @@ const CaloriesForm = () => {
           defaultValue="kitten-intact"
           items={DREFactors}
           onChange={handleSelectChange}
-        />  
+        />
       </FormControl>
       <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="info">Estimated daily calories<br />
-        {
-          lower === upper
-          ? `${lower} ~ more`
-          : `${lower} ~ ${upper}`
-            
-        }
+        <Alert severity="info">
+          Estimated daily calories
+          <br />
+          {lower === upper ? `${lower} ~ more` : `${lower} ~ ${upper}`}
         </Alert>
       </Stack>
     </Box>
-  );
+  )
 }
 
-export default CaloriesForm;
+export default CaloriesForm
