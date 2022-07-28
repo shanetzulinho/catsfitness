@@ -1,5 +1,5 @@
 export const calculateRER = (weight) => {
-  return 70 * Math.pow(weight, 0.75)
+  return Math.round(70 * Math.pow(weight, 0.75))
 }
 
 export const showMessage = (lowerBound, upperBound) => {
