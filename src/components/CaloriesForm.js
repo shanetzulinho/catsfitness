@@ -69,11 +69,11 @@ const CaloriesForm = () => {
   const calculateCalories = (factors, weight) => {
     const rer = calculateRER(weight)
 
-    const lowerBound = DRE_OBJECT[factors].lowerBound * rer
-    const upperBound = DRE_OBJECT[factors].upperBound * rer
+    const lowerBound = Math.round(DRE_OBJECT[factors].lowerBound * rer)
+    const upperBound = Math.round(DRE_OBJECT[factors].upperBound * rer)
 
-    setCalLower(Math.round(lowerBound))
-    setCalUpper(Math.round(upperBound))
+    setCalLower(lowerBound)
+    setCalUpper(upperBound)
   }
 
   return (
