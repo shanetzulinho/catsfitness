@@ -1,14 +1,5 @@
-export const calculateProteinRate = (proteinKcal, totalKcal) => {
-  const proteinRate = Math.round((proteinKcal / totalKcal) * 100)
-  return proteinRate
-}
+export const calcCarb = (protein, fat, moisture, fiber, ash) =>
+  100 - protein - fat - moisture - fiber - ash
 
-export const calculateFatRate = (fatKcal, totalKcal) => {
-  const fatRate = Math.round((fatKcal / totalKcal) * 100)
-  return fatRate
-}
-
-export const calculateCarbRate = (carbKcal, totalKcal) => {
-  const carbRate = Math.round((carbKcal / totalKcal) * 100)
-  return carbRate
-}
+export const calcProportion = (numerator, denominator) =>
+  Math.round((numerator / denominator) * 100)
