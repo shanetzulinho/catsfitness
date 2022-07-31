@@ -1,80 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import InputField from '../components/InputField'
 import SelectField from '../components/SelectField'
-import { FACTORS, DRE_OBJECT } from '../components/caloriesForm.consts'
-import { calculateRER, showMessage } from '../components/caloriesForm.helpers'
+import { DRE_OBJECT, DRE_FACTORS_OPTIONS } from '../components/caloriesForm.consts'
+import { calcRER, showMessage } from '../components/caloriesForm.helpers'
 
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 
-// options for activity_level SelectField
-const DRE_FACTORS_OPTIONS = [
-  {
-    value: FACTORS.KITTEN_INTACT,
-    label: DRE_OBJECT[FACTORS.KITTEN_INTACT].label,
-  },
-  {
-    value: FACTORS.INTACT,
-    label: DRE_OBJECT[FACTORS.INTACT].label,
-  },
-  {
-    value: FACTORS.SPAYED_NEUTERED,
-    label: DRE_OBJECT[FACTORS.SPAYED_NEUTERED].label,
-  },
-  {
-    value: FACTORS.OVERWEIGHT,
-    label: DRE_OBJECT[FACTORS.OVERWEIGHT].label,
-  },
-  {
-    value: FACTORS.UNDERWEIGHT,
-    label: DRE_OBJECT[FACTORS.UNDERWEIGHT].label,
-  },
-  {
-    value: FACTORS.MIDDLE_AGE,
-    label: DRE_OBJECT[FACTORS.MIDDLE_AGE].label,
-  },
-  {
-    value: FACTORS.ELDERLY_AGE,
-    label: DRE_OBJECT[FACTORS.ELDERLY_AGE].label,
-  },
-  {
-    value: FACTORS.PREGNANT,
-    label: DRE_OBJECT[FACTORS.PREGNANT].label,
-  },
-  {
-    value: FACTORS.NURSING,
-    label: DRE_OBJECT[FACTORS.NURSING].label,
-  },
-]
-
 const CaloriesForm = () => {
   const [weight, setWeight] = useState(0)
-  const [DREFactor, setDREFactor] = useState('')
-  const [calLower, setCalLower] = useState(0)
-  const [calUpper, setCalUpper] = useState(0)
+  const [DREFactor, setDREFactor] = useState('default')
+  const [calcLower, setCalcLower] = useState(0)
+  const [calcUpper, setCalcUpper] = useState(0)
 
-  const handleInputChange = (event) => {
-    setWeight(event.target.value)
+  const calcLowerBound = (factors, rer) => {
+    const lowerBound = Math.round(DRE_OBJECT[factors].lowerBound * rer)
+    setCalcLower(lowerBound)
   }
 
-  const handleSelectChange = (event, weight) => {
-    const value = event.target.value
-    setDREFactor(value)
-    calculateCalories(value, weight)
+  const calcUpperBound = (factors, rer) => {
+    const upperBound = Math.round(DRE_OBJECT[factors].upperBound * rer)
+    setCalcUpper(upperBound)
   }
 
-  const calculateCalories = (factors, weight) => {
-    const rer = calculateRER(weight)
+  useEffect(() => {
+    const calcCalories = (weight, factors) => {
+      const rer = calcRER(weight)
 
-    const lowerBound = DRE_OBJECT[factors].lowerBound * rer
-    const upperBound = DRE_OBJECT[factors].upperBound * rer
+      calcLowerBound(factors, rer)
+      calcUpperBound(factors, rer)
+    }
 
-    setCalLower(Math.round(lowerBound))
-    setCalUpper(Math.round(upperBound))
-  }
+    calcCalories(weight, DREFactor)
+  }, [weight, DREFactor])
 
   return (
     <Box
@@ -91,19 +52,19 @@ const CaloriesForm = () => {
           type="Number"
           name="weight"
           value={weight}
-          onChange={handleInputChange}
+          onChange={(e) => setWeight(e.target.value)}
         />
         <SelectField
           label="Activity Level"
           name="activity_level"
           defaultValue={DREFactor}
           items={DRE_FACTORS_OPTIONS}
-          onChange={(e) => handleSelectChange(e, weight)}
+          onChange={(e) => setDREFactor(e.target.value)}
         />
       </FormControl>
       <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="info">
-          Estimated daily calories: {showMessage(calLower, calUpper)}
+          Estimated daily calories: {showMessage(calcLower, calcUpper)}
         </Alert>
       </Stack>
     </Box>

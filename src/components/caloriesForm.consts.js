@@ -1,4 +1,5 @@
 export const FACTORS = {
+  DEFAULT: 'default',
   KITTEN_INTACT: 'kitten_intact',
   INTACT: 'intact',
   SPAYED_NEUTERED: 'spayed/neutered',
@@ -11,6 +12,11 @@ export const FACTORS = {
 }
 
 export const DRE_OBJECT = {
+  [FACTORS.DEFAULT]: {
+    label: 'Please select a value',
+    lowerBound: 0,
+    upperBound: 0,
+  },
   [FACTORS.KITTEN_INTACT]: {
     label: 'Kitten less than 10 months - Intact (幼貓[未滿10個月]-未結紮)',
     lowerBound: 2.5,
@@ -57,3 +63,43 @@ export const DRE_OBJECT = {
     upperBound: 2.0,
   },
 }
+
+// options for activity_level SelectField
+export const DRE_FACTORS_OPTIONS = [
+  {
+    value: FACTORS.KITTEN_INTACT,
+    label: DRE_OBJECT[FACTORS.KITTEN_INTACT].label,
+  },
+  {
+    value: FACTORS.INTACT,
+    label: DRE_OBJECT[FACTORS.INTACT].label,
+  },
+  {
+    value: FACTORS.SPAYED_NEUTERED,
+    label: DRE_OBJECT[FACTORS.SPAYED_NEUTERED].label,
+  },
+  {
+    value: FACTORS.OVERWEIGHT,
+    label: DRE_OBJECT[FACTORS.OVERWEIGHT].label,
+  },
+  {
+    value: FACTORS.UNDERWEIGHT,
+    label: DRE_OBJECT[FACTORS.UNDERWEIGHT].label,
+  },
+  {
+    value: FACTORS.MIDDLE_AGE,
+    label: DRE_OBJECT[FACTORS.MIDDLE_AGE].label,
+  },
+  {
+    value: FACTORS.ELDERLY_AGE,
+    label: DRE_OBJECT[FACTORS.ELDERLY_AGE].label,
+  },
+  {
+    value: FACTORS.PREGNANT,
+    label: DRE_OBJECT[FACTORS.PREGNANT].label,
+  },
+  {
+    value: FACTORS.NURSING,
+    label: DRE_OBJECT[FACTORS.NURSING].label,
+  },
+]
