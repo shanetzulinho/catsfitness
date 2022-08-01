@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import InputField from '../components/InputField'
 import SelectField from '../components/SelectField'
-import { DRE_OBJECT, DRE_FACTORS_OPTIONS } from '../components/caloriesForm.consts'
-import { calcRER, showMessage } from '../components/caloriesForm.helpers'
+import { DRE_OBJECT } from '../components/caloriesForm.consts'
+import {
+  calcRER,
+  showMessage,
+  createActivityLevelSelectField,
+} from '../components/caloriesForm.helpers'
 
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 
 const CaloriesForm = () => {
-  const [weight, setWeight] = useState(0)
-  const [DREFactor, setDREFactor] = useState('default')
-  const [calcLower, setCalcLower] = useState(0)
-  const [calcUpper, setCalcUpper] = useState(0)
+  const [inputs, setInputs] = useState({ weight: 0, DREFactor: 'default' })
+  const [dailyCaloriesMessage, setDailyCaloriesMessage] = useState('')
 
-  const calcLowerBound = (factors, rer) => {
-    const lowerBound = Math.round(DRE_OBJECT[factors].lowerBound * rer)
-    setCalcLower(lowerBound)
+  const { weight, DREFactor } = inputs
+  const activityLevelOptions = createActivityLevelSelectField(DRE_OBJECT)
+
+  const onSubmitForm = () => {
+    const rer = calcRER(weight)
+
+    const lowerBound = Math.round(DRE_OBJECT[DREFactor].lowerBound * rer)
+    const upperBound = Math.round(DRE_OBJECT[DREFactor].upperBound * rer)
+
+    const caloriesMessage = showMessage(lowerBound, upperBound)
+    setDailyCaloriesMessage(caloriesMessage)
   }
 
-  const calcUpperBound = (factors, rer) => {
-    const upperBound = Math.round(DRE_OBJECT[factors].upperBound * rer)
-    setCalcUpper(upperBound)
+  const handleFormInputs = (event) => {
+    const { value, name } = event.target
+    setInputs({ ...inputs, [name]: value })
   }
-
-  useEffect(() => {
-    const calcCalories = (weight, factors) => {
-      const rer = calcRER(weight)
-
-      calcLowerBound(factors, rer)
-      calcUpperBound(factors, rer)
-    }
-
-    calcCalories(weight, DREFactor)
-  }, [weight, DREFactor])
 
   return (
     <Box
@@ -52,20 +52,21 @@ const CaloriesForm = () => {
           type="Number"
           name="weight"
           value={weight}
-          onChange={(e) => setWeight(e.target.value)}
+          onChange={handleFormInputs}
         />
         <SelectField
           label="Activity Level"
-          name="activity_level"
+          name="DREFactor"
           defaultValue={DREFactor}
-          items={DRE_FACTORS_OPTIONS}
-          onChange={(e) => setDREFactor(e.target.value)}
+          items={activityLevelOptions}
+          onChange={handleFormInputs}
         />
+        <Button label="Submit" name="submit" onClick={onSubmitForm}>
+          Submit
+        </Button>
       </FormControl>
       <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="info">
-          Estimated daily calories: {showMessage(calcLower, calcUpper)}
-        </Alert>
+        <Alert severity="info">Estimated daily calories: {dailyCaloriesMessage}</Alert>
       </Stack>
     </Box>
   )
