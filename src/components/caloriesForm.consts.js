@@ -1,5 +1,4 @@
 export const FACTORS = {
-  DEFAULT: 'default',
   KITTEN_INTACT: 'kitten_intact',
   INTACT: 'intact',
   SPAYED_NEUTERED: 'spayed/neutered',
@@ -12,11 +11,6 @@ export const FACTORS = {
 }
 
 export const DRE_OBJECT = {
-  [FACTORS.DEFAULT]: {
-    label: 'Please select a value',
-    lowerBound: 0,
-    upperBound: 0,
-  },
   [FACTORS.KITTEN_INTACT]: {
     label: 'Kitten less than 10 months - Intact (幼貓[未滿10個月]-未結紮)',
     lowerBound: 2.5,
