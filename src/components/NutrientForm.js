@@ -1,69 +1,66 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import InputField from '../components/InputField'
-import { calcCarb, calcProportion } from '../components/nutrientForm.helpers'
-import { INPUTS_INFO } from '../components/nutrientForm.consts'
+import {
+  calcMetabolizableEnergy,
+  calcDryMatterBasis,
+  calcCalciumToPhosphorusRatio,
+} from '../components/nutrientForm.helpers'
 
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
+import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
 const NutrientForm = () => {
-  const [inputs, setInputs] = useState({})
-  const [proteinProportion, setProteinProportion] = useState(0)
-  const [fatProportion, setFatProportion] = useState(0)
-  const [carbProportion, setCarbProportion] = useState(0)
-  const [dryProtein, setDryProtein] = useState(0)
-  const [dryFat, setDryFat] = useState(0)
-  const [dryCarb, setDryCarb] = useState(0)
-  const [calciumToPhosphorusRatio, setCalciumToPhosphorusRatio] = useState(0)
+  const [inputs, setInputs] = useState({
+    totalCalories: 0,
+    protein: 0,
+    fat: 0,
+    moisture: 0,
+    fiber: 0,
+    ash: 0,
+    calcium: 0,
+    phosphorus: 0,
+  })
+  const [metabolizableEngergyTable, setMetabolizableEngergyTable] = useState('')
+  const [dryMatterBasisTable, setDryMatterBasisTable] = useState('')
+  const [calciumToPhosphorusRatioTable, setCalciumToPhosphorusRatioTable] = useState('')
 
-  const handleInputsChange = (event) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }))
+  const { totalCalories, protein, fat, moisture, fiber, ash, calcium, phosphorus } =
+    inputs
+
+  const handleFormInputs = (event) => {
+    const { value, name } = event.target
+    setInputs({ ...inputs, [name]: value })
   }
 
-  const calcMetabolizableEnergy = ({ protein, fat, moisture, fiber, ash }) => {
-    const carb = calcCarb(protein, fat, moisture, fiber, ash)
+  const onSubmitForm = () => {
+    const getMetabolizableEnergyTable = calcMetabolizableEnergy(
+      protein,
+      fat,
+      moisture,
+      fiber,
+      ash
+    )
+    setMetabolizableEngergyTable(getMetabolizableEnergyTable)
 
-    // calculate calories proportion of protein, fat, and carb
-    const proteinKcal = protein * 3.5
-    const fatKcal = fat * 8.5
-    const carbKcal = carb * 3.5
-    const totalKcal = proteinKcal + fatKcal + carbKcal
+    const getDryMatterBasisTable = calcDryMatterBasis(
+      protein,
+      fat,
+      moisture,
+      fiber,
+      ash,
+      totalCalories
+    )
+    setDryMatterBasisTable(getDryMatterBasisTable)
 
-    setProteinProportion(calcProportion(proteinKcal, totalKcal))
-    setFatProportion(calcProportion(fatKcal, totalKcal))
-    setCarbProportion(calcProportion(carbKcal, totalKcal))
+    const getCalciumToPhosphorusRatioTable = calcCalciumToPhosphorusRatio(
+      calcium,
+      phosphorus
+    )
+    setCalciumToPhosphorusRatioTable(getCalciumToPhosphorusRatioTable)
   }
-
-  const calcDryMatterBasis = ({ protein, fat, moisture, fiber, ash, totalCalories }) => {
-    let carb = calcCarb(protein, fat, moisture, fiber, ash)
-    // check if carb is negative
-    if (carb < 0) {
-      const carbKcal = totalCalories - protein * 3.5 - fat * 8.5
-      carb = carbKcal / 3.5
-    }
-
-    const dryMatter = 100 - moisture
-    setDryProtein(calcProportion(protein, dryMatter))
-    setDryFat(calcProportion(fat, dryMatter))
-    setDryCarb(calcProportion(carb, dryMatter))
-  }
-
-  const calcCalciumToPhosphorusRatio = ({ calcium, phosphorus }) => {
-    setCalciumToPhosphorusRatio(calcium / phosphorus)
-  }
-
-  useEffect(() => {
-    calcMetabolizableEnergy(inputs)
-    calcDryMatterBasis(inputs)
-    calcCalciumToPhosphorusRatio(inputs)
-  }, [inputs])
 
   return (
     <Box
@@ -76,78 +73,69 @@ const NutrientForm = () => {
     >
       <FormControl fullWidth>
         <InputField
-          label={INPUTS_INFO.TOTAL_CALORIES.label}
+          label="Total calories(總體熱量) Kcal"
           type="Number"
-          name={INPUTS_INFO.TOTAL_CALORIES.name}
-          value={inputs[INPUTS_INFO.TOTAL_CALORIES]}
-          onChange={handleInputsChange}
+          name="totalCalories"
+          value={totalCalories}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.PROTEIN.label}
+          label="Protein(蛋白質)%"
           type="Number"
-          name={INPUTS_INFO.PROTEIN.name}
-          value={inputs[INPUTS_INFO.PROTEIN]}
-          onChange={handleInputsChange}
+          name="protein"
+          value={protein}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.FAT.label}
+          label="Fat(脂肪)%"
           type="Number"
-          name={INPUTS_INFO.FAT.name}
-          value={inputs[INPUTS_INFO.FAT]}
-          onChange={handleInputsChange}
+          name="fat"
+          value={fat}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.MOISTURE.label}
+          label="Moisture(水份)%"
           type="Number"
-          name={INPUTS_INFO.MOISTURE.name}
-          value={inputs[INPUTS_INFO.MOISTURE]}
-          onChange={handleInputsChange}
+          name="moisture"
+          value={moisture}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.FIBER.label}
+          label="Fiber(纖維)%"
           type="Number"
-          name={INPUTS_INFO.FIBER.name}
-          value={inputs[INPUTS_INFO.FIBER]}
-          onChange={handleInputsChange}
+          name="fiber"
+          value={fiber}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.ASH.label}
+          label="Ash(灰份)%"
           type="Number"
-          name={INPUTS_INFO.ASH.name}
-          value={inputs[INPUTS_INFO.ASH]}
-          onChange={handleInputsChange}
+          name="ash"
+          value={ash}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.CALCIUM.label}
+          label="Calcium(鈣)%"
           type="Number"
-          name={INPUTS_INFO.CALCIUM.name}
-          value={inputs[INPUTS_INFO.CALCIUM]}
-          onChange={handleInputsChange}
+          name="calcium"
+          value={calcium}
+          onChange={handleFormInputs}
         />
         <InputField
-          label={INPUTS_INFO.PHOSPHORUS.label}
+          label="Phosphorus(磷)%"
           type="Number"
-          name={INPUTS_INFO.PHOSPHORUS.name}
-          value={inputs[INPUTS_INFO.PHOSPHORUS]}
-          onChange={handleInputsChange}
+          name="phosphorus"
+          value={phosphorus}
+          onChange={handleFormInputs}
         />
+        <Button label="Submit" name="submit" onClick={onSubmitForm}>
+          Submit
+        </Button>
       </FormControl>
       <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="info">
-          <AlertTitle>ME% (Metabolizable Energy, 代謝能熱量比)</AlertTitle>
-          Protein: {proteinProportion ? proteinProportion : 0}% Fat:{' '}
-          {fatProportion ? fatProportion : 0}% Carbs:{' '}
-          {carbProportion ? carbProportion : 0}%
-        </Alert>
-        <Alert severity="info">
-          <AlertTitle>Dry Matter Basis (乾物比)</AlertTitle>
-          Protein: {dryProtein ? dryProtein : 0}% Fat: {dryFat ? dryFat : 0}% Carbs:
-          {dryCarb ? dryCarb : 0}%
-        </Alert>
-        <Alert severity="info">
-          <AlertTitle>Calcium To Phosphorus Ratio (鈣磷比)</AlertTitle>
-          {calciumToPhosphorusRatio ? calciumToPhosphorusRatio.toFixed(2) : 0} : 1
-        </Alert>
+        {metabolizableEngergyTable}
+        {dryMatterBasisTable}
+        {calciumToPhosphorusRatioTable}
       </Stack>
     </Box>
   )
