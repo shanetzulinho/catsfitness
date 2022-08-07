@@ -37,7 +37,7 @@ const CaloriesForm = () => {
   } = useForm()
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <h1>Cat's calorie calculator</h1>
       <h2>貓咪每日所需攝取熱量計算機</h2>
       <form onSubmit={handleSubmit(onSubmitForm)}>

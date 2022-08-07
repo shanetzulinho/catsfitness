@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 
 const NutrientForm = () => {
@@ -61,7 +62,7 @@ const NutrientForm = () => {
   } = useForm()
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <h1>Cat food nutrient calculator</h1>
       <h2>貓食營養素計算機</h2>
       <form onSubmit={handleSubmit(onSubmitForm)}>
@@ -159,7 +160,7 @@ const NutrientForm = () => {
       <Stack sx={{ width: '100%' }} spacing={1} my={2}>
         {metabolizableEngergyTable}
         {dryMatterBasisTable}
-        {calciumToPhosphorusRatioTable}
+        <Alert severity="info">{calciumToPhosphorusRatioTable}</Alert>
       </Stack>
     </Container>
   )
