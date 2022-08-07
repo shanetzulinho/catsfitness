@@ -7,35 +7,27 @@ import {
   calcCalciumToPhosphorusRatio,
 } from '../components/nutrientForm.helpers'
 
+import { useForm } from 'react-hook-form'
+import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
 const NutrientForm = () => {
-  const [inputs, setInputs] = useState({
-    totalCalories: 0,
-    protein: 0,
-    fat: 0,
-    moisture: 0,
-    fiber: 0,
-    ash: 0,
-    calcium: 0,
-    phosphorus: 0,
-  })
   const [metabolizableEngergyTable, setMetabolizableEngergyTable] = useState('')
   const [dryMatterBasisTable, setDryMatterBasisTable] = useState('')
   const [calciumToPhosphorusRatioTable, setCalciumToPhosphorusRatioTable] = useState('')
 
-  const { totalCalories, protein, fat, moisture, fiber, ash, calcium, phosphorus } =
-    inputs
-
-  const handleFormInputs = (event) => {
-    const { value, name } = event.target
-    setInputs({ ...inputs, [name]: value })
-  }
-
-  const onSubmitForm = () => {
+  const onSubmitForm = ({
+    totalCalories,
+    protein,
+    fat,
+    moisture,
+    fiber,
+    ash,
+    calcium,
+    phosphorus,
+  }) => {
     const getMetabolizableEnergyTable = calcMetabolizableEnergy(
       protein,
       fat,
@@ -62,82 +54,113 @@ const NutrientForm = () => {
     setCalciumToPhosphorusRatioTable(getCalciumToPhosphorusRatioTable)
   }
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
   return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: 200 },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <FormControl fullWidth>
-        <InputField
-          label="Total calories(總體熱量) Kcal"
-          type="Number"
-          name="totalCalories"
-          value={totalCalories}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Protein(蛋白質)%"
-          type="Number"
-          name="protein"
-          value={protein}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Fat(脂肪)%"
-          type="Number"
-          name="fat"
-          value={fat}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Moisture(水份)%"
-          type="Number"
-          name="moisture"
-          value={moisture}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Fiber(纖維)%"
-          type="Number"
-          name="fiber"
-          value={fiber}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Ash(灰份)%"
-          type="Number"
-          name="ash"
-          value={ash}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Calcium(鈣)%"
-          type="Number"
-          name="calcium"
-          value={calcium}
-          onChange={handleFormInputs}
-        />
-        <InputField
-          label="Phosphorus(磷)%"
-          type="Number"
-          name="phosphorus"
-          value={phosphorus}
-          onChange={handleFormInputs}
-        />
-        <Button label="Submit" name="submit" onClick={onSubmitForm}>
-          Submit
-        </Button>
-      </FormControl>
-      <Stack sx={{ width: '100%' }} spacing={2}>
+    <Container maxWidth="sm">
+      <h1>Cat food nutrient calculation</h1>
+      <form onSubmit={handleSubmit(onSubmitForm)}>
+        <Box
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '100%' },
+          }}
+          autoComplete="off"
+        >
+          <InputField
+            label="Total calories (總體熱量) Kcal"
+            name="totalCalories"
+            {...register('totalCalories', {
+              required: 'Total calories (總體熱量) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.totalCalories)}
+            helperText={errors.totalCalories?.message}
+          />
+          <InputField
+            label="Protein (蛋白質)%"
+            name="protein"
+            {...register('protein', {
+              required: 'Protein (蛋白質) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.protein)}
+            helperText={errors.protein?.message}
+          />
+          <InputField
+            label="Fat (脂肪)%"
+            name="fat"
+            {...register('fat', {
+              required: 'Fat (脂肪) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.fat)}
+            helperText={errors.fat?.message}
+          />
+          <InputField
+            label="Moisture (水份)%"
+            name="moisture"
+            {...register('moisture', {
+              required: 'Moisture (水份) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.moisture)}
+            helperText={errors.moisture?.message}
+          />
+          <InputField
+            label="Fiber (纖維)%"
+            name="fiber"
+            {...register('fiber', {
+              required: 'Fiber (纖維) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.fiber)}
+            helperText={errors.fiber?.message}
+          />
+          <InputField
+            label="Ash (灰份)%"
+            name="ash"
+            {...register('ash', {
+              required: 'Ash (灰份) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.ash)}
+            helperText={errors.ash?.message}
+          />
+          <InputField
+            label="Calcium (鈣)%"
+            name="calcium"
+            {...register('calcium', {
+              required: 'Calcium (鈣) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.calcium)}
+            helperText={errors.calcium?.message}
+          />
+          <InputField
+            label="Phosphorus (磷)%"
+            name="phosphorus"
+            {...register('phosphorus', {
+              required: 'Phosphorus (磷) is required.',
+              valueAsNumber: true,
+            })}
+            error={Boolean(errors.phosphorus)}
+            helperText={errors.phosphorus?.message}
+          />
+          <Button variant="contained" name="submit" type="submit">
+            Submit
+          </Button>
+        </Box>
+      </form>
+      <Stack sx={{ width: '100%' }} spacing={1} my={2}>
         {metabolizableEngergyTable}
         {dryMatterBasisTable}
         {calciumToPhosphorusRatioTable}
       </Stack>
-    </Box>
+    </Container>
   )
 }
 

@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper'
 const BasicTable = ({ tableHeaders, tableBodies }) => {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ maxWidth: '100%' }} mb={2} aria-label="simple table">
         <TableHead>
           <TableRow>
             {tableHeaders.map((header, index) => (
