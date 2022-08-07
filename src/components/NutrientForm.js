@@ -62,7 +62,8 @@ const NutrientForm = () => {
 
   return (
     <Container maxWidth="sm">
-      <h1>Cat food nutrient calculation</h1>
+      <h1>Cat food nutrient calculator</h1>
+      <h2>貓食營養素計算機</h2>
       <form onSubmit={handleSubmit(onSubmitForm)}>
         <Box
           sx={{
