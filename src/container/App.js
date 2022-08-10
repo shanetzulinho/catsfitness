@@ -5,8 +5,11 @@ import Divider from '@mui/material/Divider'
 
 import ReactGA from 'react-ga'
 
-ReactGA.initialize('G-YMTQHQB60B')
-ReactGA.pageview('/')
+const trackingId = 'G-YMTQHQB60B'
+const appURL = 'https://mycatsfitness.netlify.app/'
+ReactGA.initialize(trackingId)
+ReactGA.send(window.location.pathname + window.location.search)
+ReactGA.send(appURL)
 
 function App() {
   return (
