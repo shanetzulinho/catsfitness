@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from '@mui/material/TextField'
 
 const InputField = React.forwardRef(
-  ({ label, type, name, value, onChange, helperText, error }, ref) => {
+  ({ label, type, name, value, onChange, InputProps, helperText, error }, ref) => {
     return (
       <TextField
         variant="outlined"
@@ -11,6 +11,7 @@ const InputField = React.forwardRef(
         type={type}
         name={name}
         value={value}
+        InputProps={InputProps}
         onChange={onChange}
         error={error}
         helperText={helperText}

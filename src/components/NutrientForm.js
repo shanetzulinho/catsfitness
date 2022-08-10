@@ -75,6 +75,8 @@ const NutrientForm = () => {
           <InputField
             label="Total calories (總體熱量) Kcal"
             name="totalCalories"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('totalCalories', {
               required: 'Total calories (總體熱量) is required.',
               valueAsNumber: true,
@@ -85,6 +87,8 @@ const NutrientForm = () => {
           <InputField
             label="Protein (蛋白質)%"
             name="protein"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('protein', {
               required: 'Protein (蛋白質) is required.',
               valueAsNumber: true,
@@ -95,6 +99,8 @@ const NutrientForm = () => {
           <InputField
             label="Fat (脂肪)%"
             name="fat"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('fat', {
               required: 'Fat (脂肪) is required.',
               valueAsNumber: true,
@@ -105,6 +111,8 @@ const NutrientForm = () => {
           <InputField
             label="Moisture (水份)%"
             name="moisture"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('moisture', {
               required: 'Moisture (水份) is required.',
               valueAsNumber: true,
@@ -115,6 +123,8 @@ const NutrientForm = () => {
           <InputField
             label="Fiber (纖維)%"
             name="fiber"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('fiber', {
               required: 'Fiber (纖維) is required.',
               valueAsNumber: true,
@@ -125,6 +135,8 @@ const NutrientForm = () => {
           <InputField
             label="Ash (灰份)%"
             name="ash"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('ash', {
               required: 'Ash (灰份) is required.',
               valueAsNumber: true,
@@ -135,6 +147,8 @@ const NutrientForm = () => {
           <InputField
             label="Calcium (鈣)%"
             name="calcium"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('calcium', {
               required: 'Calcium (鈣) is required.',
               valueAsNumber: true,
@@ -145,6 +159,8 @@ const NutrientForm = () => {
           <InputField
             label="Phosphorus (磷)%"
             name="phosphorus"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('phosphorus', {
               required: 'Phosphorus (磷) is required.',
               valueAsNumber: true,

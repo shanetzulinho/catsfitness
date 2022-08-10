@@ -50,6 +50,8 @@ const CaloriesForm = () => {
           <InputField
             label="Weight (體重) kg"
             name="weight"
+            type="number"
+            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
             {...register('weight', {
               required: 'Weight (體重) is required.',
               valueAsNumber: true,
