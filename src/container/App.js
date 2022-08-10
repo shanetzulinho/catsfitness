@@ -8,7 +8,7 @@ import ReactGA from 'react-ga4'
 function App() {
   const trackingId = 'G-W0D22GZYML'
   ReactGA.initialize(trackingId)
-  ReactGA.send({ hitType: 'pageview', page: '/' })
+  ReactGA.send({ hitType: 'pageview', page: 'https://mycatsfitness.netlify.app/' })
 
   return (
     <div className="App">
