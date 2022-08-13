@@ -1,23 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import InputField from '../components/InputField'
-import SelectField from '../components/SelectField'
-import { DRE_OBJECT } from '../components/caloriesForm.consts'
-import {
-  calcRER,
-  showMessage,
-  createActivityLevelSelectField,
-} from '../components/caloriesForm.helpers'
+import InputField from '../InputField'
+import SelectField from '../SelectField'
+import { DRE_OBJECT } from './caloriesForm.consts'
+import { calcRER, createActivityLevelSelectField } from './caloriesForm.helpers'
 
 import { useForm } from 'react-hook-form'
-import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Alert from '@mui/material/Alert'
-import Stack from '@mui/material/Stack'
 
-const CaloriesForm = () => {
-  const [dailyCaloriesMessage, setDailyCaloriesMessage] = useState('')
+const CaloriesForm = ({ getLowerUpperBound }) => {
   const activityLevelOptions = createActivityLevelSelectField(DRE_OBJECT)
 
   const onSubmitForm = ({ weight, DREFactor }) => {
@@ -26,8 +18,10 @@ const CaloriesForm = () => {
     const lowerBound = Math.round(DRE_OBJECT[DREFactor].lowerBound * rer)
     const upperBound = Math.round(DRE_OBJECT[DREFactor].upperBound * rer)
 
-    const caloriesMessage = showMessage(lowerBound, upperBound)
-    setDailyCaloriesMessage(caloriesMessage)
+    getLowerUpperBound({
+      lowerBound: lowerBound,
+      upperBound: upperBound,
+    })
   }
 
   const {
@@ -37,7 +31,7 @@ const CaloriesForm = () => {
   } = useForm()
 
   return (
-    <Container maxWidth="md">
+    <div>
       <h1>Cat's calorie calculator</h1>
       <h2>貓咪每日所需攝取熱量計算機</h2>
       <form onSubmit={handleSubmit(onSubmitForm)}>
@@ -74,12 +68,7 @@ const CaloriesForm = () => {
           </Button>
         </Box>
       </form>
-      <Stack sx={{ width: '100%' }} spacing={1} my={2}>
-        <Alert severity="info">
-          Estimated daily calories (估計每日攝取卡路里): {dailyCaloriesMessage}
-        </Alert>
-      </Stack>
-    </Container>
+    </div>
   )
 }
 
