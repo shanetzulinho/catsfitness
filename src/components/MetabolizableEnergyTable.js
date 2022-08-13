@@ -1,10 +1,8 @@
 import BasicTable from '../components/BasicTable'
 
-const MetabolizableEnergyTable = ({
-  proteinProportion,
-  fatProportion,
-  carbsProportion,
-}) => {
+const MetabolizableEnergyTable = ({ metabolizableEnergy }) => {
+  const { proteinProportion, fatProportion, carbsProportion } = metabolizableEnergy
+
   const tableHeaders = [
     'Metabolizable Energy, ME (代謝能熱量比)',
     'Protein (蛋白質) %',

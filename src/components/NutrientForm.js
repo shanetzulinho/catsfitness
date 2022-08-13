@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import InputField from '../components/InputField'
 import {
@@ -8,17 +8,10 @@ import {
 } from '../components/nutrientForm.helpers'
 
 import { useForm } from 'react-hook-form'
-import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Alert from '@mui/material/Alert'
-import Stack from '@mui/material/Stack'
 
-const NutrientForm = () => {
-  const [metabolizableEngergyTable, setMetabolizableEngergyTable] = useState('')
-  const [dryMatterBasisTable, setDryMatterBasisTable] = useState('')
-  const [calciumToPhosphorusRatioTable, setCalciumToPhosphorusRatioTable] = useState('')
-
+const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRatio }) => {
   const onSubmitForm = ({
     totalCalories,
     protein,
@@ -29,16 +22,16 @@ const NutrientForm = () => {
     calcium,
     phosphorus,
   }) => {
-    const getMetabolizableEnergyTable = calcMetabolizableEnergy(
+    const calcMetabolizableEnergyResult = calcMetabolizableEnergy(
       protein,
       fat,
       moisture,
       fiber,
       ash
     )
-    setMetabolizableEngergyTable(getMetabolizableEnergyTable)
+    getMetabolizableEnergy(calcMetabolizableEnergyResult)
 
-    const getDryMatterBasisTable = calcDryMatterBasis(
+    const calcDryMatterBasisResult = calcDryMatterBasis(
       protein,
       fat,
       moisture,
@@ -46,13 +39,13 @@ const NutrientForm = () => {
       ash,
       totalCalories
     )
-    setDryMatterBasisTable(getDryMatterBasisTable)
+    getDryMatterBasis(calcDryMatterBasisResult)
 
-    const getCalciumToPhosphorusRatioTable = calcCalciumToPhosphorusRatio(
+    const calcCalciumToPhosphorusRatioResult = calcCalciumToPhosphorusRatio(
       calcium,
       phosphorus
     )
-    setCalciumToPhosphorusRatioTable(getCalciumToPhosphorusRatioTable)
+    getCalciumRatio(calcCalciumToPhosphorusRatioResult)
   }
 
   const {
@@ -62,7 +55,7 @@ const NutrientForm = () => {
   } = useForm()
 
   return (
-    <Container maxWidth="md">
+    <div>
       <h1>Cat food nutrient calculator</h1>
       <h2>貓食營養素計算機</h2>
       <form onSubmit={handleSubmit(onSubmitForm)}>
@@ -173,12 +166,7 @@ const NutrientForm = () => {
           </Button>
         </Box>
       </form>
-      <Stack sx={{ width: '100%' }} spacing={1} my={2}>
-        {metabolizableEngergyTable}
-        {dryMatterBasisTable}
-        <Alert severity="info">{calciumToPhosphorusRatioTable}</Alert>
-      </Stack>
-    </Container>
+    </div>
   )
 }
 

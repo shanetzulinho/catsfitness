@@ -1,6 +1,8 @@
 import BasicTable from '../components/BasicTable'
 
-const DryMatterBasisTable = ({ proteinProportion, fatProportion, carbsProportion }) => {
+const DryMatterBasisTable = ({ dryMatterBasis }) => {
+  const { dryProteinProportion, dryFatProportion, dryCarbsProportion } = dryMatterBasis
+
   const tableHeaders = [
     'Dry Matter Basis (乾物質比)%',
     'Protein (蛋白質) %',
@@ -17,9 +19,9 @@ const DryMatterBasisTable = ({ proteinProportion, fatProportion, carbsProportion
     },
     {
       type: 'Result (計算結果)',
-      protein: proteinProportion,
-      fat: fatProportion,
-      carbs: carbsProportion,
+      protein: dryProteinProportion,
+      fat: dryFatProportion,
+      carbs: dryCarbsProportion,
     },
   ]
 
