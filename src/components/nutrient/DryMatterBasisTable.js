@@ -1,4 +1,4 @@
-import BasicTable from '../components/BasicTable'
+import BasicTable from '../BasicTable'
 
 const DryMatterBasisTable = ({ dryMatterBasis }) => {
   const { dryProteinProportion, dryFatProportion, dryCarbsProportion } = dryMatterBasis

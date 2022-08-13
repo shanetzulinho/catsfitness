@@ -1,11 +1,11 @@
 import React from 'react'
 
-import InputField from '../components/InputField'
+import InputField from '../InputField'
 import {
   calcMetabolizableEnergy,
   calcDryMatterBasis,
   calcCalciumToPhosphorusRatio,
-} from '../components/nutrientForm.helpers'
+} from './nutrientForm.helpers'
 
 import { useForm } from 'react-hook-form'
 import Box from '@mui/material/Box'

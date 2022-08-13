@@ -1,4 +1,4 @@
-import BasicTable from '../components/BasicTable'
+import BasicTable from '../BasicTable'
 
 const MetabolizableEnergyTable = ({ metabolizableEnergy }) => {
   const { proteinProportion, fatProportion, carbsProportion } = metabolizableEnergy
