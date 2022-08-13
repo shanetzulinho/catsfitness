@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 import './App.css'
-import CaloriesForm from '../components/CaloriesForm'
-import CaloriesResult from '../components/CaloriesResult'
+import CaloriesForm from '../components/calories/CaloriesForm'
+import CaloriesResult from '../components/calories/CaloriesResult'
 import NutrientForm from '../components/nutrient/NutrientForm'
 import MetabolizableEnergyTable from '../components/nutrient/MetabolizableEnergyTable'
 import DryMatterBasisTable from '../components/nutrient/DryMatterBasisTable'
