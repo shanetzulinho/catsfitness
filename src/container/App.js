@@ -25,6 +25,7 @@ function App() {
 
   const getLowerUpperBound = ({ lowerBound, upperBound }) => {
     setLowerUpperBound({ lowerBound: lowerBound, upperBound: upperBound })
+  }
 
   const [metabolizableEnergy, setMetabolizableEnergy] = useState({
     proteinProportion: 0,
