@@ -1,5 +1,5 @@
 import React from 'react'
-import { showMessage } from '../components/caloriesForm.helpers'
+import { showMessage } from './caloriesForm.helpers'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 

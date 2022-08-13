@@ -1,4 +1,4 @@
-import { calculateRER } from '../components/caloriesForm.helpers'
+import { calculateRER } from './caloriesForm.helpers'
 
 describe('Check calculateRER', () => {
   test('should return correct RER', () => {
