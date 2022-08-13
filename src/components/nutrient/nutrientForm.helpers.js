@@ -1,6 +1,3 @@
-import MetabolizableEnergyTable from '../components/MetabolizableEnergyTable'
-import DryMatterBasisTable from '../components/DryMatterBasisTable'
-
 export const calcCarbs = (protein, fat, moisture, fiber, ash) =>
   100 - protein - fat - moisture - fiber - ash
 
@@ -16,13 +13,15 @@ export const calcMetabolizableEnergy = (protein, fat, moisture, fiber, ash) => {
   const carbsKcal = carbs * 3.5
   const totalKcal = proteinKcal + fatKcal + carbsKcal
 
-  return (
-    <MetabolizableEnergyTable
-      proteinProportion={calcProportion(proteinKcal, totalKcal)}
-      fatProportion={calcProportion(fatKcal, totalKcal)}
-      carbsProportion={calcProportion(carbsKcal, totalKcal)}
-    />
-  )
+  const proteinProportion = calcProportion(proteinKcal, totalKcal)
+  const fatProportion = calcProportion(fatKcal, totalKcal)
+  const carbsProportion = calcProportion(carbsKcal, totalKcal)
+
+  return {
+    proteinProportion: proteinProportion,
+    fatProportion: fatProportion,
+    carbsProportion: carbsProportion,
+  }
 }
 
 export const calcDryMatterBasis = (protein, fat, moisture, fiber, ash, totalCalories) => {
@@ -36,16 +35,15 @@ export const calcDryMatterBasis = (protein, fat, moisture, fiber, ash, totalCalo
 
   const dryMatter = 100 - moisture
 
-  return (
-    <DryMatterBasisTable
-      proteinProportion={calcProportion(protein, dryMatter)}
-      fatProportion={calcProportion(fat, dryMatter)}
-      carbsProportion={calcProportion(carbs, dryMatter)}
-    />
-  )
+  const proteinProportion = calcProportion(protein, dryMatter)
+  const fatProportion = calcProportion(fat, dryMatter)
+  const carbsProportion = calcProportion(carbs, dryMatter)
+
+  return {
+    dryProteinProportion: proteinProportion,
+    dryFatProportion: fatProportion,
+    dryCarbsProportion: carbsProportion,
+  }
 }
 
-export const calcCalciumToPhosphorusRatio = (calcium, phosphorus) => {
-  const caToPhoRatio = calcium / phosphorus
-  return <div>Calcium To Phosphorus Ratio (鈣磷比) {caToPhoRatio.toFixed(2)}:1</div>
-}
+export const calcCalciumToPhosphorusRatio = (calcium, phosphorus) => calcium / phosphorus
