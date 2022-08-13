@@ -1,12 +1,9 @@
 import React from 'react'
 
-import InputField from '../components/InputField'
-import SelectField from '../components/SelectField'
-import { DRE_OBJECT } from '../components/caloriesForm.consts'
-import {
-  calcRER,
-  createActivityLevelSelectField,
-} from '../components/caloriesForm.helpers'
+import InputField from '../InputField'
+import SelectField from '../SelectField'
+import { DRE_OBJECT } from './caloriesForm.consts'
+import { calcRER, createActivityLevelSelectField } from './caloriesForm.helpers'
 
 import { useForm } from 'react-hook-form'
 import Box from '@mui/material/Box'
