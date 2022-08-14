@@ -1,13 +1,13 @@
 import React from 'react'
-
+import { useForm, Controller } from 'react-hook-form'
 import InputField from '../InputField'
 import {
   calcMetabolizableEnergy,
   calcDryMatterBasis,
   calcCalciumToPhosphorusRatio,
 } from './nutrientForm.helpers'
-
-import { useForm } from 'react-hook-form'
+import { INPUTS, INPUTS_ATTRIBUTES } from './nutrientForm.consts'
+import { validationNumberRegisterOptions } from '../validationRules'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
@@ -49,10 +49,31 @@ const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRat
   }
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm()
+
+  const renderInputs = Object.values(INPUTS).map((key) => {
+    return (
+      <Controller
+        key={key}
+        name={INPUTS_ATTRIBUTES[key].name}
+        control={control}
+        rules={validationNumberRegisterOptions}
+        defaultValue=""
+        render={({ field }) => (
+          <InputField
+            {...field}
+            label={INPUTS_ATTRIBUTES[key].label}
+            type="number"
+            error={Boolean(errors[key])}
+            helperText={errors[key]?.message}
+          />
+        )}
+      />
+    )
+  })
 
   return (
     <div>
@@ -65,102 +86,7 @@ const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRat
           }}
           autoComplete="off"
         >
-          <InputField
-            label="Total calories (總體熱量) Kcal"
-            name="totalCalories"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('totalCalories', {
-              required: 'Total calories (總體熱量) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.totalCalories)}
-            helperText={errors.totalCalories?.message}
-          />
-          <InputField
-            label="Protein (蛋白質)%"
-            name="protein"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('protein', {
-              required: 'Protein (蛋白質) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.protein)}
-            helperText={errors.protein?.message}
-          />
-          <InputField
-            label="Fat (脂肪)%"
-            name="fat"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('fat', {
-              required: 'Fat (脂肪) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.fat)}
-            helperText={errors.fat?.message}
-          />
-          <InputField
-            label="Moisture (水份)%"
-            name="moisture"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('moisture', {
-              required: 'Moisture (水份) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.moisture)}
-            helperText={errors.moisture?.message}
-          />
-          <InputField
-            label="Fiber (纖維)%"
-            name="fiber"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('fiber', {
-              required: 'Fiber (纖維) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.fiber)}
-            helperText={errors.fiber?.message}
-          />
-          <InputField
-            label="Ash (灰份)%"
-            name="ash"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('ash', {
-              required: 'Ash (灰份) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.ash)}
-            helperText={errors.ash?.message}
-          />
-          <InputField
-            label="Calcium (鈣)%"
-            name="calcium"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('calcium', {
-              required: 'Calcium (鈣) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.calcium)}
-            helperText={errors.calcium?.message}
-          />
-          <InputField
-            label="Phosphorus (磷)%"
-            name="phosphorus"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('phosphorus', {
-              required: 'Phosphorus (磷) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.phosphorus)}
-            helperText={errors.phosphorus?.message}
-          />
+          {renderInputs}
           <Button variant="contained" name="submit" type="submit">
             Submit
           </Button>
