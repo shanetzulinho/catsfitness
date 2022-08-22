@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 import './App.css'
-import CaloriesForm from '../components/calories/CaloriesForm'
-import CaloriesResult from '../components/calories/CaloriesResult'
-import NutrientForm from '../components/nutrient/NutrientForm'
-import MetabolizableEnergyTable from '../components/nutrient/MetabolizableEnergyTable'
-import DryMatterBasisTable from '../components/nutrient/DryMatterBasisTable'
-import CalciumToPhosphorusRatioResult from '../components/nutrient/CalciumToPhosphorusRatioResult'
+import CaloriesForm from './components/calories/CaloriesForm'
+import CaloriesResult from './components/calories/CaloriesResult'
+import NutrientForm from './components/nutrient/NutrientForm'
+import MetabolizableEnergyTable from './components/nutrient/MetabolizableEnergyTable'
+import DryMatterBasisTable from './components/nutrient/DryMatterBasisTable'
+import CalciumToPhosphorusRatioResult from './components/nutrient/CalciumToPhosphorusRatioResult'
 
 import Divider from '@mui/material/Divider'
 import Container from '@mui/material/Container'
