@@ -4,7 +4,7 @@ import InputField from '../InputField'
 import SelectField from '../SelectField'
 import { DRE_OBJECT } from './caloriesForm.consts'
 import { calcRER, createActivityLevelSelectField } from './caloriesForm.helpers'
-import { validationNumberRegisterOptions } from '../validationRules'
+import { validationRequired, validationNumberRegisterOptions } from '../validationRules'
 
 import { useForm, Controller } from 'react-hook-form'
 import Box from '@mui/material/Box'
@@ -61,9 +61,7 @@ const CaloriesForm = ({ getLowerUpperBound }) => {
             name="DREFactor"
             control={control}
             defaultValue=""
-            rules={{
-              required: 'This field is required (此為必填欄位)',
-            }}
+            rules={validationRequired}
             render={({ field }) => (
               <SelectField
                 {...field}
