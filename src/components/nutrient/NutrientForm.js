@@ -65,26 +65,24 @@ const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRat
           }}
           autoComplete="off"
         >
-          {Object.values(INPUTS).map((key) => {
-            return (
-              <Controller
-                key={key}
-                name={INPUTS_ATTRIBUTES[key].name}
-                control={control}
-                rules={validationNumberRegisterOptions}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputField
-                    {...field}
-                    label={INPUTS_ATTRIBUTES[key].label}
-                    type="number"
-                    error={Boolean(errors[key])}
-                    helperText={errors[key]?.message}
-                  />
-                )}
-              />
-            )
-          })}
+          {Object.values(INPUTS).map((key) => (
+            <Controller
+              key={key}
+              name={INPUTS_ATTRIBUTES[key].name}
+              control={control}
+              rules={validationNumberRegisterOptions}
+              defaultValue=""
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  label={INPUTS_ATTRIBUTES[key].label}
+                  type="number"
+                  error={Boolean(errors[key])}
+                  helperText={errors[key]?.message}
+                />
+              )}
+            />
+          ))}
           <Button variant="contained" name="submit" type="submit">
             Submit
           </Button>
