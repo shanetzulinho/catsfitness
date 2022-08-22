@@ -11,6 +11,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 const CaloriesForm = ({ getLowerUpperBound }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
   const activityLevelOptions = createActivityLevelSelectField(DRE_OBJECT)
 
   const onSubmitForm = ({ weight, DREFactor }) => {
@@ -24,12 +30,6 @@ const CaloriesForm = ({ getLowerUpperBound }) => {
       upperBound: upperBound,
     })
   }
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
 
   return (
     <div>

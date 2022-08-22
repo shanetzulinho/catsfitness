@@ -12,6 +12,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRatio }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
   const onSubmitForm = ({
     totalCalories,
     protein,
@@ -47,12 +53,6 @@ const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRat
     )
     getCalciumRatio(calcCalciumToPhosphorusRatioResult)
   }
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
 
   return (
     <div>
