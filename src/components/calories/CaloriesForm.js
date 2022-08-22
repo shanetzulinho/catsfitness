@@ -4,8 +4,9 @@ import InputField from '../InputField'
 import SelectField from '../SelectField'
 import { DRE_OBJECT } from './caloriesForm.consts'
 import { calcRER, createActivityLevelSelectField } from './caloriesForm.helpers'
+import { validationNumberRegisterOptions } from '../validationRules'
 
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
@@ -25,7 +26,7 @@ const CaloriesForm = ({ getLowerUpperBound }) => {
   }
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm()
@@ -41,27 +42,38 @@ const CaloriesForm = ({ getLowerUpperBound }) => {
           }}
           autoComplete="off"
         >
-          <InputField
-            label="Weight (體重) kg"
+          <Controller
             name="weight"
-            type="number"
-            InputProps={{ inputProps: { min: 0, step: 0.1 } }}
-            {...register('weight', {
-              required: 'Weight (體重) is required.',
-              valueAsNumber: true,
-            })}
-            error={Boolean(errors.weight)}
-            helperText={errors.weight?.message}
+            control={control}
+            rules={validationNumberRegisterOptions}
+            defaultValue=""
+            render={({ field }) => (
+              <InputField
+                {...field}
+                label="Weight (體重) kg"
+                type="number"
+                error={Boolean(errors.weight)}
+                helperText={errors.weight?.message}
+              />
+            )}
           />
-          <SelectField
-            label="Activity Level (活動量)"
+          <Controller
             name="DREFactor"
-            items={activityLevelOptions}
-            {...register('DREFactor', {
-              required: 'Activity Level (活動量) is required.',
-            })}
-            error={Boolean(errors.DREFactor)}
-            helperText={errors.DREFactor?.message}
+            control={control}
+            defaultValue=""
+            rules={{
+              required: 'This field is required (此為必填欄位)',
+            }}
+            render={({ field }) => (
+              <SelectField
+                {...field}
+                label="Activity Level (活動量)"
+                name="DREFactor"
+                items={activityLevelOptions}
+                error={Boolean(errors.DREFactor)}
+                helperText={errors.DREFactor?.message}
+              />
+            )}
           />
           <Button variant="contained" name="submit" type="submit">
             Submit
