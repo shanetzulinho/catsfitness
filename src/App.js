@@ -10,9 +10,9 @@ import Container from '@mui/material/Container'
 import ReactGA from 'react-ga4'
 
 function App() {
-  const trackingId = 'G-W0D22GZYML'
+  const trackingId = process.env.REACT_APP_GA_TRACKING_ID
   ReactGA.initialize(trackingId)
-  ReactGA.send({ hitType: 'pageview', page: 'https://mycatsfitness.netlify.app/' })
+  ReactGA.send({ hitType: 'pageview', page: process.env.REACT_APP_URL })
 
   return (
     <div className="App">
