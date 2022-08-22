@@ -54,27 +54,6 @@ const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRat
     formState: { errors },
   } = useForm()
 
-  const renderInputs = Object.values(INPUTS).map((key) => {
-    return (
-      <Controller
-        key={key}
-        name={INPUTS_ATTRIBUTES[key].name}
-        control={control}
-        rules={validationNumberRegisterOptions}
-        defaultValue=""
-        render={({ field }) => (
-          <InputField
-            {...field}
-            label={INPUTS_ATTRIBUTES[key].label}
-            type="number"
-            error={Boolean(errors[key])}
-            helperText={errors[key]?.message}
-          />
-        )}
-      />
-    )
-  })
-
   return (
     <div>
       <h1>Cat food nutrient calculator</h1>
@@ -86,7 +65,26 @@ const NutrientForm = ({ getMetabolizableEnergy, getDryMatterBasis, getCalciumRat
           }}
           autoComplete="off"
         >
-          {renderInputs}
+          {Object.values(INPUTS).map((key) => {
+            return (
+              <Controller
+                key={key}
+                name={INPUTS_ATTRIBUTES[key].name}
+                control={control}
+                rules={validationNumberRegisterOptions}
+                defaultValue=""
+                render={({ field }) => (
+                  <InputField
+                    {...field}
+                    label={INPUTS_ATTRIBUTES[key].label}
+                    type="number"
+                    error={Boolean(errors[key])}
+                    helperText={errors[key]?.message}
+                  />
+                )}
+              />
+            )
+          })}
           <Button variant="contained" name="submit" type="submit">
             Submit
           </Button>
