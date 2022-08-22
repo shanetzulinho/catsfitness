@@ -1,8 +1,7 @@
 import { useState } from 'react'
 
 import './App.css'
-import CaloriesForm from './components/calories/CaloriesForm'
-import CaloriesResult from './components/calories/CaloriesResult'
+import CaloriesCalculation from './components/calories/CaloriesCalculation'
 import NutrientForm from './components/nutrient/NutrientForm'
 import MetabolizableEnergyTable from './components/nutrient/MetabolizableEnergyTable'
 import DryMatterBasisTable from './components/nutrient/DryMatterBasisTable'
@@ -17,15 +16,6 @@ function App() {
   const trackingId = 'G-W0D22GZYML'
   ReactGA.initialize(trackingId)
   ReactGA.send({ hitType: 'pageview', page: 'https://mycatsfitness.netlify.app/' })
-
-  const [lowerUpperBound, setLowerUpperBound] = useState({
-    lowerBound: 0,
-    upperBound: 0,
-  })
-
-  const getLowerUpperBound = ({ lowerBound, upperBound }) => {
-    setLowerUpperBound({ lowerBound: lowerBound, upperBound: upperBound })
-  }
 
   const [metabolizableEnergy, setMetabolizableEnergy] = useState({
     proteinProportion: 0,
@@ -72,8 +62,7 @@ function App() {
   return (
     <div className="App">
       <Container maxWidth="md">
-        <CaloriesForm getLowerUpperBound={getLowerUpperBound} />
-        <CaloriesResult lowerUpperBound={lowerUpperBound} />
+        <CaloriesCalculation />
         <Divider variant="middle" />
         <NutrientForm
           getMetabolizableEnergy={getMetabolizableEnergy}
